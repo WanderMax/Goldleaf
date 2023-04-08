@@ -1,10 +1,23 @@
+# Note: run 'make initial' for the first time (to install libusbhsfs packages), after that simply run 'make'
 
-.PHONY: all clean
+.PHONY: all allclean clean libclean initial
 
 all:
+	@$(MAKE) -C Plutonium/
 	@$(MAKE) -C Goldleaf/
-	@$(MAKE) -C Forwarder/
+
+initial:
+	@$(MAKE) -C libnx/
+	@$(MAKE) -C Plutonium/
+	@$(MAKE) -C libusbhsfs/ BUILD_TYPE=GPL install
+	@$(MAKE) -C Goldleaf/
+
+allclean: libclean clean
+
+libclean:
+	@$(MAKE) -C libnx/ clean
+	@$(MAKE) -C Plutonium/ clean
+	@$(MAKE) -C libusbhsfs/ clean
 
 clean:
-	@$(MAKE) clean -C Goldleaf/
-	@$(MAKE) clean -C Forwarder/
+	@$(MAKE) -C Goldleaf/ clean
